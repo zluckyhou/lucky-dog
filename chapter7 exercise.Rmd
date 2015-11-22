@@ -1,0 +1,79 @@
+---
+title: "Chapter7 exercise"
+author: "houdongdong\\
+        15420141151964"
+
+output: 
+  pdf_document: 
+    latex_engine: xelatex
+---
+##7.1
+let $y_i$ denote the number of people deaths from leukemia among $n_i$ people with \emph{i}th covariate pattern. The dose is difined by the lower end of each dose interval
+
+
+```{r}
+y<-c(13,5,5,3,4,18)
+n<-c(391,205,156,50,35,51)
+n_y<-n-y
+death.mat<-cbind(y,n_y)
+x<-c(0,1,10,50,100,200)
+```
+We choose the logisitic regression model to fit the data
+$$log\frac{\pi_i}{1-\pi_i}=\beta_0+\beta x; \quad y_i\sim Bin(n_i,\pi_i)$$
+the fitted results are as follows:
+```{r}
+res.glm<-glm(death.mat~x,family=binomial(link="logit"))
+summary(res.glm)
+```
+
+we can make a comparation between the observed value and fitted value
+```{r}
+fit<-res.glm$fitted #estimated proportion of death from leukemia
+yfit<-n*fit
+rbind(y,fit,yfit)
+```
+
+According to the residual deviance and the fitted value, we can make the conclusion that the model fit the data well.
+
+The estimated proportion of death from leukemia and etsimated coefficient indicate that higher radiation dose increses the death rate from leukemia.
+
+
+##7.2
+(a) if $\beta_1=\beta_2$, then $\pi_1=\pi_2$, it's obviously that $\phi=1$
+
+(b) \begin{eqnarray*}
+log\phi_j &=& log O_{1j}-log O_{2j}\\
+&=&log\frac{\pi_{1j}}{1-\pi_{1j}}-log\frac{\pi_{2j}}{1-\pi_{2j}}\\
+&=& \alpha_1+\beta_1 x_j -(\alpha_2+\beta_2 x_j)\\
+&=& \alpha_1-\alpha_2+x_j(\beta_1-\beta_2)\\
+\end{eqnarray*}
+if $\beta_1= \beta_2$, we have $log\phi_j=\alpha_1-\alpha_2$, which is constant for all \emph{j}.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
